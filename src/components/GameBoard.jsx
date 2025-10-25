@@ -6,15 +6,16 @@ const initialGameBoard = [
     [null, null, null],
 ]
 
-export default function GameBoard() {
+export default function GameBoard({onSelect, activePlayerSymbol}) {
     const [gameBoard, setGameBoard] = useState(initialGameBoard);
 
     function handleSquareClick(rowIndex, colIndex) {
         setGameBoard((prevGameBoard) => {
             const updatedGameBoard = [...prevGameBoard.map((innerBoard) => [...innerBoard])];
-            updatedGameBoard[rowIndex][colIndex] = 'X'
+            updatedGameBoard[rowIndex][colIndex] = activePlayerSymbol
             return updatedGameBoard;
         })
+        onSelect();
     }
 
 
