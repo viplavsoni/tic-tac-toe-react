@@ -3,20 +3,22 @@ import GameBoard from "./components/GameBoard.jsx"
 import Player from "./components/Player.jsx"
 import Log from "./components/Log.jsx";
 
+function derivedActivePlayer(turns) {
+  let currentPlayer = 'X';
+
+  if (turns.length > 0 && turns[0].player === 'X') {
+    currentPlayer = 'O'
+  }
+  return currentPlayer;
+}
+
 function App() {
   const [gameTurn, setGameTurn] = useState([]);
-  const [activePlayer, setActivePlayer] = useState('X');
+  const activePlayer = derivedActivePlayer(gameTurn);
 
   function handleSquareClick(rowIndex, colIndex) {
-    setActivePlayer((activeP) => activeP === 'X' ? 'O' : 'X');
     setGameTurn((prevTurn) => {
-      let currentPlayer = 'X';
-
-      if (prevTurn.length > 0 && prevTurn[0].player === 'X') {
-        currentPlayer = 'O'
-      }
-
-      const updatedTurn = [{ square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prevTurn]
+      const updatedTurn = [{ square: { row: rowIndex, col: colIndex }, player: activePlayer }, ...prevTurn]
       return updatedTurn
     })
   }
