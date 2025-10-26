@@ -3,6 +3,7 @@ import GameBoard from "./components/GameBoard.jsx"
 import Player from "./components/Player.jsx"
 import Log from "./components/Log.jsx";
 import { WINNING_COMBINATION } from "./winning-combination.js";
+import GameOver from "./components/GameOver.jsx";
 
 const initialGameBoard = [
   [null, null, null],
@@ -44,6 +45,8 @@ function App() {
     }
   }
 
+  const hasDraw = gameTurn.length === 9 && !winner;
+
   function handleSquareClick(rowIndex, colIndex) {
     setGameTurn((prevTurn) => {
       const updatedTurn = [{ square: { row: rowIndex, col: colIndex }, player: activePlayer }, ...prevTurn]
@@ -58,7 +61,7 @@ function App() {
           <Player isActive={activePlayer === 'X'} initialName="Player 1" symbol="X" />
           <Player isActive={activePlayer === 'O'} initialName="Player 2" symbol="O" />
         </ol>
-        {winner && <p>You Won: {winner}</p>}
+        {(winner || hasDraw) && <GameOver winner={winner}></GameOver>}
         <GameBoard onSelect={handleSquareClick} board={gameBoard}></GameBoard>
       </div>
       <Log turns={gameTurn} />
