@@ -1,12 +1,24 @@
 import { useState } from "react"
 import GameBoard from "./components/GameBoard.jsx"
 import Player from "./components/Player.jsx"
+import Log from "./components/Log.jsx";
 
 function App() {
+  const [gameTurn, setGameTurn] = useState([]);
   const [activePlayer, setActivePlayer] = useState('X');
 
-  function handleSquareClick() {
-    setActivePlayer((activeP) => activeP === 'X' ? 'O' : 'X')
+  function handleSquareClick(rowIndex, colIndex) {
+    setActivePlayer((activeP) => activeP === 'X' ? 'O' : 'X');
+    setGameTurn((prevTurn) => {
+      let currentPlayer = 'X';
+
+      if (prevTurn.length > 0 && prevTurn[0].player === 'X') {
+        currentPlayer = 'O'
+      }
+
+      const updatedTurn = [{ square: { row: rowIndex, col: colIndex }, player: currentPlayer }, ...prevTurn]
+      return updatedTurn
+    })
   }
 
   return (
@@ -16,8 +28,9 @@ function App() {
           <Player isActive={activePlayer === 'X'} initialName="Player 1" symbol="X" />
           <Player isActive={activePlayer === 'O'} initialName="Player 2" symbol="O" />
         </ol>
-        <GameBoard onSelect={handleSquareClick} activePlayerSymbol={activePlayer}></GameBoard>
+        <GameBoard onSelect={handleSquareClick} turns={gameTurn}></GameBoard>
       </div>
+      <Log />
     </main>
   )
 }
