@@ -30,7 +30,7 @@ function App() {
         </ol>
         <GameBoard onSelect={handleSquareClick} turns={gameTurn}></GameBoard>
       </div>
-      <Log />
+      <Log turns={gameTurn} />
     </main>
   )
 }
